@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1542286558 source:d:\resource\program-practice\result-calculation-in-c\main.c
+	<stdio.h>
+	<stdlib.h>
+
