@@ -1,43 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void multiPleFileRead(char *fp_in,char *fp_out){
-    int num,i=0;
+void multiPleFileRead(char *fp_in,int *numbers){
+    int num,i=0,count = 0;
     char line[80];
-
     while(fgets(line,80,fp_in) != NULL ){
-        //line[strlen(line)-1] = '\0';
         line [ strcspn(line, "\r\n") ] = 0;
-        sscanf(line,"%*d %d",&num);
-        //sum = num1+num2;
-        //printf("%d + %d = %d \n",num1,num2,sum);
-        printf("%d \n",num);
-        fprintf(fp_out,"%d ",num);
+        sscanf(line,"%*d %d",&numbers[count]);
+        count++;
     }
-    fprintf(fp_out,"\n");
 }
 int main()
 {
-    FILE *fp_math,*fp_bangle,*fp_english,*fp_avg,*fp_result;
-    char *math_file = "./file/math.txt";
-    char *bangla_file = "./file/bangla.txt";
-    char *english_file = "./file/english.txt";
-    char *avg_file = "./file/avg.txt";
-    char *result_file = "./file/result.txt";
-
+    FILE *fp_math,*fp_bangle,*fp_english,*fp_result;
+    char *math_file = "./file/math.txt",
+    *english_file = "./file/english.txt",
+    *result_file = "./file/result.txt",
+    *bangla_file = "./file/bangla.txt";
+    int mathNumber[9],banglaNumber[9],englishNumber[9],i = 0;
+    float avg=0;
     fp_math = fopen(math_file,"r");
     fp_bangle = fopen(bangla_file,"r");
     fp_english = fopen(english_file,"r");
-
-    fp_avg = fopen(avg_file,"a+");
     fp_result = fopen(result_file,"w");
 
-    //printf("Hello world!\n");
-    multiPleFileRead(fp_math,fp_avg);
-    multiPleFileRead(fp_bangle,fp_avg);
-    multiPleFileRead(fp_english,fp_avg);
+    multiPleFileRead(fp_math,mathNumber);
+    multiPleFileRead(fp_bangle,banglaNumber);
+    multiPleFileRead(fp_english,englishNumber);
+
+    for(i = 0; i<9;i++){
+        avg = (mathNumber[i]+banglaNumber[i]+englishNumber[i])/3;
+        fprintf(fp_result,"%d %.1lf\n",i+1,avg);
+        printf("%d %.1lf\n",i+1,avg);
+    }
+
+     printf("\nAlso check result.txt file it's updated.!taadaaa\n");
     fclose(fp_math);
-    fclose(fp_avg);
     fclose(fp_result);
     return 0;
 }
