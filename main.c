@@ -6,14 +6,15 @@ void multiPleFileRead(char *fp_in,char *fp_out){
     char line[80];
 
     while(fgets(line,80,fp_in) != NULL ){
-        line[strlen(line)-1] = '\0';
+        //line[strlen(line)-1] = '\0';
+        line [ strcspn(line, "\r\n") ] = 0;
         sscanf(line,"%*d %d",&num);
         //sum = num1+num2;
         //printf("%d + %d = %d \n",num1,num2,sum);
         printf("%d \n",num);
-        fprintf(fp_out,"%d -l\n",num);
+        fprintf(fp_out,"%d ",num);
     }
-
+    fprintf(fp_out,"\n");
 }
 int main()
 {
@@ -25,15 +26,21 @@ int main()
     char *result_file = "./file/result.txt";
 
     fp_math = fopen(math_file,"r");
-    //fp_bangle = fopen(bangla_file,"r");
-    //fp_english = fopen(english_file,"r");
+    fp_bangle = fopen(bangla_file,"r");
+    fp_english = fopen(english_file,"r");
 
-    fp_avg = fopen(avg_file,"a");
-    fp_result = fopen(fp_result,"a");
+    fp_avg = fopen(avg_file,"a+");
+    fp_result = fopen(result_file,"w");
 
     //printf("Hello world!\n");
     multiPleFileRead(fp_math,fp_avg);
-
-
+    multiPleFileRead(fp_bangle,fp_avg);
+    multiPleFileRead(fp_english,fp_avg);
+    fclose(fp_math);
+    fclose(fp_avg);
+    fclose(fp_result);
     return 0;
 }
+
+
+
